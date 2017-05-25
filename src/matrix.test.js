@@ -21,7 +21,7 @@ describe('initializing matrix object', () => {
   });
 
   it('get output array correct', () => {
-    expect(myMatrix.arrayed).to.deep.equal(
+    expect(myMatrix.vals).to.deep.equal(
       [
         [4, 2,   5],
         [2, 3,  20],
