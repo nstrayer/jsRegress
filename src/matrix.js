@@ -8,7 +8,7 @@ class matrix{
   constructor(data){
     this.data = data;
     this.colNames = this.getColNames()
-    this.arrayed = this.makeArrays()
+    this.vals = this.makeArrays()
     this.dim = this.getDimensions();
   }
 
@@ -18,22 +18,22 @@ class matrix{
   }
 
   makeArrays(){
-    const arrayed = this.data.map(row => Object.values(row))
-    return arrayed;
+    const vals = this.data.map(row => Object.values(row))
+    return vals;
   }
 
   row(rowNum){
-    return this.arrayed.slice(rowNum, rowNum + 1)[0]
+    return this.vals.slice(rowNum, rowNum + 1)[0]
   }
 
   col(colNum){
-    return this.arrayed.map(row => row[colNum])
+    return this.vals.map(row => row[colNum])
   }
 
   //get dimensions of the matrix n: rows, p: columns
   getDimensions(){
-    const n = this.arrayed.length;
-    const p = this.arrayed[0].length;
+    const n = this.vals.length;
+    const p = this.vals[0].length;
     return {rows: n,cols: p}
   }
 
@@ -41,7 +41,7 @@ class matrix{
     if(this.dim.rows != this.dim.cols){
       throw new Error("Your matrix needs to be square to get a diagonal")
     }
-    return this.arrayed.map((row,i) => row[i])
+    return this.vals.map((row,i) => row[i])
   }
 
   trace(){
@@ -60,12 +60,13 @@ class matrix{
     for(let i = 0; i < rows_new; i++){
       let newRow = [];
       for(let j = 0; j < columns_new; j++){
-        newRow.push(this.arrayed[j][i])
+        newRow.push(this.vals[j][i])
       };
       transposed.push(newRow)
     };
     return transposed;
   }
+
 }
 
 module.exports = matrix;
