@@ -1,4 +1,6 @@
-//Multiplies two matrix objects supplied to it.
+//Multiplies two matrix objects supplied to it and returns a matrix object of result
+
+import matrix from './matrix';
 
 const matMult = (matA,matB) => {
   const { rows: A_rows, cols: A_cols} = matA.dim
@@ -23,8 +25,7 @@ const matMult = (matA,matB) => {
       result[i][j] = sum;
     }
   }
-
-  return result;
+  return new matrix(result);
 }
 
 module.exports = matMult;

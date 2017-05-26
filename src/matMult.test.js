@@ -17,14 +17,12 @@ describe('initializing matrix objects', () => {
   let matA = new matrix(myData);
   let matB = new matrix(myData2);
 
-
   it('throws error when trying to multiply two non-conformable matrices', () => {
     expect( () => matMult(matB, matA)).to.throw("To multiply two matrices the number of columns of the first need to match the rows of the second. These don't match.");
   });
 
-
   it('should multiply two matrices properly', () => {
-    expect(matMult(matA,matB)).to.deep.equal(
+    expect(matMult(matA,matB).vals).to.deep.equal(
       [
         [18, 19, 110,  9],
         [52, 66, 415, 26],
