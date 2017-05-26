@@ -1,45 +1,53 @@
 import { expect } from 'chai';
 import matrix from './matrix';
 
-describe('initializing matrix object', () => {
-  const myData = [
-    {y: 4, x1: 2, x2: 5},
-    {y: 2, x1: 3, x2: 20},
-    {y: 1, x1: 1.4, x2: 15}
+describe('initializing a matrix object', () => {
+  const mat1 = [
+    [4, 2,    5],
+    [2, 3,   20],
+    [1, 1.4, 15]
   ];
 
-  const myData2 = [
-    {y: 4, x1: 2, x2: 5},
-    {y: 2, x1: 3, x2: 20}
+  const mat2 = [
+    [4, 2, 5 ],
+    [2, 3, 20]
   ];
 
-  let myMatrix = new matrix(myData);
-  let myMatrix2 = new matrix(myData2);
+  let myMatrix1 = new matrix(mat1);
+  let myMatrix2 = new matrix(mat2);
 
-  it('should get correct column names', () => {
-    expect(myMatrix.getColNames()).to.deep.equal(["y", "x1", "x2"]);
-  });
-
-  it('get output array correct', () => {
-    expect(myMatrix.vals).to.deep.equal(
+  it('correctly output the data', () => {
+    expect(myMatrix1.vals).to.deep.equal(
       [
-        [4, 2,   5],
-        [2, 3,  20],
-        [1, 1.4,15]
+        [4, 2,    5],
+        [2, 3,   20],
+        [1, 1.4, 15]
       ]
     );
   });
 
   it('get columns correctly', () => {
-    expect(myMatrix.col(1)).to.deep.equal( [2,3,1.4] );
+    expect(myMatrix1.col(1)).to.deep.equal( [2,3,1.4] );
   });
 
   it('get rows correctly', () => {
-    expect(myMatrix.row(2)).to.deep.equal( [1,1.4,15] );
+    expect(myMatrix1.row(2)).to.deep.equal( [1,1.4,15] );
+  });
+
+  it('retrieves correct element', () => {
+    expect(myMatrix1.el(1,2)).to.equal( 20 );
   });
 
   it('gets correct dimensions of square matrix', () => {
-    expect(myMatrix.dim).to.deep.equal( {rows: 3, cols: 3} );
+    expect(myMatrix1.dim).to.deep.equal( {rows: 3, cols: 3} );
+  });
+
+  it('Reports if symmetry properly in true case', () => {
+    expect(myMatrix1.isSymmetric()).to.equal( true );
+  });
+
+  it('Reports if symmetry properly in false case', () => {
+    expect(myMatrix2.isSymmetric()).to.equal( false );
   });
 
   it('gets correct dimensions of non-square matrix', () => {
@@ -51,15 +59,15 @@ describe('initializing matrix object', () => {
   });
 
   it('gets correct diagonal', () => {
-    expect(myMatrix.diag()).to.deep.equal( [4,3,15] );
+    expect(myMatrix1.diag()).to.deep.equal( [4,3,15] );
   });
 
   it('get correct trace', () => {
-    expect(myMatrix.trace()).to.equal( 22 );
+    expect(myMatrix1.trace()).to.equal( 22 );
   });
 
   it('can get a transpose of symmetric matrix', () => {
-    expect(myMatrix.t().vals).to.deep.equal(
+    expect(myMatrix1.t().vals).to.deep.equal(
       [
         [4, 2, 1],
         [2, 3, 1.4],

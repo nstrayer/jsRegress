@@ -1,38 +1,19 @@
-//takes a json object and turns it into an object that
-//is the main matrix representation we will use for this
-//library
+//takes a array(rows) of arrays(cols)mand turns it into an object that
+//is the main matrix representation we will use for this library
 
 //Notes: Indexes at 0
 
 class matrix{
   constructor(data){
-    this.data = data;
-
-    this.isMat = this.data[0] instanceof Array;
-    this.vals = this.makeArrays();
-    this.dim = this.getDimensions();
-    this.colNames = this.getColNames();
-  }
-
-  makeArrays(){
-    if(this.isMat){
-      return this.data;
-    }
-    return this.data.map(row => Object.values(row));
+    this.vals = data;
+    this.dim = this.getDimensions(data);
   }
 
   //get dimensions of the matrix n: rows, p: columns
-  getDimensions(){
-    const n = this.vals.length;
-    const p = this.vals[0].length;
+  getDimensions(data){
+    const n = data.length;
+    const p = data[0].length;
     return {rows: n,cols: p}
-  }
-
-  getColNames(){
-    if(this.isMat){
-      return Array(this.dim.cols).fill("")
-    }
-    return Object.keys(this.data[0]);
   }
 
   //grab a row
@@ -42,7 +23,11 @@ class matrix{
 
   //grab a column
   col(colNum){
-    return this.vals.map(row => row[colNum])
+    return this.vals.map(row => row[colNum]);
+  }
+
+  el(row, col){
+    return this.vals[row][col];
   }
 
   diag(){
@@ -50,6 +35,10 @@ class matrix{
       throw new Error("Your matrix needs to be square to get a diagonal")
     }
     return this.vals.map((row,i) => row[i])
+  }
+
+  isSymmetric(){
+    return this.dim.rows === this.dim.cols;
   }
 
   trace(){
