@@ -59,7 +59,7 @@ describe('initializing matrix object', () => {
   });
 
   it('can get a transpose of symmetric matrix', () => {
-    expect(myMatrix.transpose()).to.deep.equal(
+    expect(myMatrix.t().vals).to.deep.equal(
       [
         [4, 2, 1],
         [2, 3, 1.4],
@@ -69,7 +69,7 @@ describe('initializing matrix object', () => {
   });
 
   it('can get a transpose of un-symmetric matrix', () => {
-    expect(myMatrix2.transpose()).to.deep.equal(
+    expect(myMatrix2.t().vals).to.deep.equal(
       [
         [4, 2],
         [2, 3],

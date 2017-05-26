@@ -7,27 +7,18 @@
 class matrix{
   constructor(data){
     this.data = data;
-    this.colNames = this.getColNames()
-    this.vals = this.makeArrays()
-    this.dim = this.getDimensions();
-  }
 
-  getColNames(){
-    const colNames = Object.keys(this.data[0])
-    return colNames;
+    this.isMat = this.data[0] instanceof Array;
+    this.vals = this.makeArrays();
+    this.dim = this.getDimensions();
+    this.colNames = this.getColNames();
   }
 
   makeArrays(){
-    const vals = this.data.map(row => Object.values(row))
-    return vals;
-  }
-
-  row(rowNum){
-    return this.vals.slice(rowNum, rowNum + 1)[0]
-  }
-
-  col(colNum){
-    return this.vals.map(row => row[colNum])
+    if(this.isMat){
+      return this.data;
+    }
+    return this.data.map(row => Object.values(row));
   }
 
   //get dimensions of the matrix n: rows, p: columns
@@ -35,6 +26,23 @@ class matrix{
     const n = this.vals.length;
     const p = this.vals[0].length;
     return {rows: n,cols: p}
+  }
+
+  getColNames(){
+    if(this.isMat){
+      return Array(this.dim.cols).fill("")
+    }
+    return Object.keys(this.data[0]);
+  }
+
+  //grab a row
+  row(rowNum){
+    return this.vals.slice(rowNum, rowNum + 1)[0]
+  }
+
+  //grab a column
+  col(colNum){
+    return this.vals.map(row => row[colNum])
   }
 
   diag(){
@@ -51,7 +59,7 @@ class matrix{
     );
   }
 
-  transpose(){
+  t(){
     const columns_new = this.dim.rows;
     const rows_new = this.dim.cols;
 
@@ -64,7 +72,8 @@ class matrix{
       };
       transposed.push(newRow)
     };
-    return transposed;
+    // return transposed;
+    return new matrix(transposed);
   }
 
 }
