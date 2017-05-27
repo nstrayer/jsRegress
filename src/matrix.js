@@ -4,6 +4,7 @@
 //Notes: Indexes at 0
 
 import determinant from './determinant';
+import matMult from './matMult';
 
 class matrix{
   constructor(data){
@@ -69,6 +70,10 @@ class matrix{
 
   det(){
     return determinant(this.vals);
+  }
+
+  mult(matB){
+    return new matrix(matMult(this.vals, matB.vals));
   }
 
 }

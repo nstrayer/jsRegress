@@ -8,9 +8,6 @@ const matMult = (A,B) => {
   const B_rows = B.length
   const B_cols = B[0].length
 
-  const A = matA.vals;
-  const B = matB.vals;
-
   //make sure we can actually multiply these matricies
   if(A_cols !== B_rows){
     throw new Error("To multiply two matrices the number of columns of the first need to match the rows of the second. These don't match.")
