@@ -20,7 +20,7 @@ const cholesky = (mat) => {
 
   //catch error
   if(rows !== cols){
-    throw new Error("Your matrix needs to be square to get an decomposition")
+    throw new Error("Your matrix needs to be square to get a decomposition")
   }
 
   //step through the diagonal elements

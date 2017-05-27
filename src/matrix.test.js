@@ -99,4 +99,23 @@ describe('initializing a matrix object', () => {
       ]
     );
   });
+
+  it('should be able to combine multiple commands/ confirm cholesky is really working', () => {
+    const A1 = new matrix(
+      [
+        [25, 15, -5],
+        [15, 18,  0],
+        [-5,  0, 11]
+      ]
+    );
+    const L = A1.chol();
+    return expect(
+      L.mult(L.t()).vals).to.deep.equal(
+      [
+        [25, 15, -5],
+        [15, 18,  0],
+        [-5,  0, 11]
+      ]
+    );
+  })
 });

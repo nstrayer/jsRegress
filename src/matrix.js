@@ -5,6 +5,7 @@
 
 import determinant from './determinant';
 import matMult from './matMult';
+import cholesky from './cholesky';
 
 class matrix{
   constructor(data){
@@ -74,6 +75,10 @@ class matrix{
 
   mult(matB){
     return new matrix(matMult(this.vals, matB.vals));
+  }
+
+  chol(){
+    return new matrix(cholesky(this.vals));
   }
 
 }
