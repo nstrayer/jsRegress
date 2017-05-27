@@ -5,7 +5,7 @@
 _Because R is just boring._
 
 This is currently an undocumented project to build a regression modeling
-library for javascript. Some packages already do this, see [`simple-statistics`](https://github.com/simple-statistics/simple-statistics) but these packages don't allow you to do a few things I find important as a statitician. Those being
+library for javascript. Some packages already do this (see [`simple-statistics`](https://github.com/simple-statistics/simple-statistics)) but these packages don't allow you to do a few things I find important as a statitician. Those being
 
 - Perform regression with more than one predictor
 - Get any information on coefficient estimates such as confidence intervals etc.
