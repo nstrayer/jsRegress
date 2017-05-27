@@ -1,5 +1,8 @@
 //Takes the determinant a matrix object supplied.
 
+import matrix from './matrix';
+
+//removes the row i and column j from the matrix and returns the new smaller one.
 //removes the row i and column j from the matrix and returns the new smaller one.
 const cofactor = (mat, i, j) => {
   let newMat = JSON.parse(JSON.stringify(mat.vals))
@@ -19,14 +22,15 @@ const det = (mat) => {
     return mat.el(0,0)*mat.el(1,1) - mat.el(1,0)*mat.el(0,1);
   } else {
     // scan across top row and sum determinants of the sub matrices
+    let summed = 0
     for(let col_num = 0; col_num < rows; col_num++){
       // console.log(mat.el(0,col_num))
-      console.table(cofactor(mat, 0, col_num).vals)
-      console.log(det(cofactor(mat, 0, col_num)))
+      // console.table(cofactor(mat, 0, col_num).vals)
+      summed += mat.el(0,col_num) * (1 - 2*(col_num%2)) * det(cofactor(mat, 0, col_num));
+      // console.log(summed)
     }
-    // return [...Array(rows).keys()].reduce(
-    //   (summed, col_num) => mat.el(0,col_num) * (1 - 2*(col_num%2)) * det(cofactor(mat, 0, col_num)),
-    //   0
-    // );
+    return summed;
   }
 }
+
+module.exports = det;
