@@ -1,5 +1,7 @@
 # jsRegress
 
+[![Build Status](https://travis-ci.org/nstrayer/jsRegress.svg?branch=master)](https://travis-ci.org/nstrayer/jsRegress)
+
 _Because R is just boring._
 
 This is currently an undocumented project to build a regression modeling
