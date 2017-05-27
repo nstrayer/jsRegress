@@ -85,4 +85,8 @@ describe('initializing a matrix object', () => {
       ]
      );
   });
+
+  it('gets determinant', () => {
+    expect(myMatrix1.det()).to.equal(47);
+  });
 });

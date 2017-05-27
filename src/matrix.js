@@ -3,6 +3,8 @@
 
 //Notes: Indexes at 0
 
+import determinant from './determinant';
+
 class matrix{
   constructor(data){
     this.vals = data;
@@ -63,6 +65,10 @@ class matrix{
     };
     // return transposed;
     return new matrix(transposed);
+  }
+
+  det(){
+    return determinant(this.vals);
   }
 
 }
