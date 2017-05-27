@@ -2,9 +2,12 @@
 
 import matrix from './matrix';
 
-const matMult = (matA,matB) => {
-  const { rows: A_rows, cols: A_cols} = matA.dim
-  const { rows: B_rows, cols: B_cols} = matB.dim
+const matMult = (A,B) => {
+  const A_rows = A.length;
+  const A_cols = A[0].length;
+  const B_rows = B.length
+  const B_cols = B[0].length
+
   const A = matA.vals;
   const B = matB.vals;
 
@@ -25,7 +28,7 @@ const matMult = (matA,matB) => {
       result[i][j] = sum;
     }
   }
-  return new matrix(result);
+  return result;
 }
 
 module.exports = matMult;
