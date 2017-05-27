@@ -1,7 +1,5 @@
 //Multiplies two matrix objects supplied to it and returns a matrix object of result
 
-import matrix from './matrix';
-
 const matMult = (A,B) => {
   const A_rows = A.length;
   const A_cols = A[0].length;

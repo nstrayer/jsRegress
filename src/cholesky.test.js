@@ -4,22 +4,34 @@ import matrix from './matrix';
 
 describe('Cholesky decompoision function', () => {
 
-  const non_square = new matrix([
-    [25, 15, -5],
-    [15, 18,  0]
-  ]);
-  const mat = new matrix([
+  // const non_square = new matrix([
+  //   [25, 15, -5],
+  //   [15, 18,  0]
+  // ]);
+  //
+  // const mat = new matrix([
+  //   [25, 15, -5],
+  //   [15, 18,  0],
+  //   [-5,  0, 11]
+  // ]);
+
+  const A = [
     [25, 15, -5],
     [15, 18,  0],
     [-5,  0, 11]
-  ]);
+  ];
+
+  const B = [
+    [4, 2, 5 ],
+    [2, 3, 20]
+  ];
 
   it('Wont try and find decomp of non-square matrices', () => {
-    expect( () => cholesky(non_square)).to.throw("Your matrix needs to be square to get an decomposition");
+    expect( () => cholesky(B)).to.throw("Your matrix needs to be square to get an decomposition");
   });
 
   it('Correctly gets lower triangular cholesky decomp from 3x3 matrix.', () => {
-    expect(cholesky(mat).vals).to.deep.equal(
+    expect(cholesky(A)).to.deep.equal(
       [
         [ 5, 0, 0],
         [ 3, 3, 0],

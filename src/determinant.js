@@ -1,7 +1,5 @@
 //Takes the determinant a matrix object supplied.
 
-// import matrix from './matrix';
-
 //removes the row i and column j from the matrix and returns the new smaller one.
 //removes the row i and column j from the matrix and returns the new smaller one.
 const cofactor = (mat, i, j) => {
@@ -25,10 +23,7 @@ const determinant = (mat) => {
     // scan across top row and sum determinants of the sub matrices
     let summed = 0
     for(let col_num = 0; col_num < rows; col_num++){
-      // console.log(mat.el(0,col_num))
-      // console.table(cofactor(mat, 0, col_num).vals)
       summed += mat[0][col_num] * (1 - 2*(col_num%2)) * determinant(cofactor(mat, 0, col_num));
-      // console.log(summed)
     }
     return summed;
   }
