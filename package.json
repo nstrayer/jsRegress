@@ -42,5 +42,10 @@
     "mocha": "^3.3.0",
     "webpack": "2.4.1",
     "yargs": "7.1.0"
+  },
+  "dependencies": {
+    "install": "^0.10.1",
+    "mathjs": "^3.13.3",
+    "npm": "^4.6.1"
   }
 }

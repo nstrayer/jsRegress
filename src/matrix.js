@@ -6,6 +6,7 @@
 import determinant from './determinant';
 import matMult from './matMult';
 import cholesky from './cholesky';
+import {inv} from 'mathjs';
 
 class matrix{
   constructor(data){
@@ -79,6 +80,10 @@ class matrix{
 
   chol(){
     return new matrix(cholesky(this.vals));
+  }
+
+  inv(){
+    return new matrix(inv(this.vals));
   }
 
 }
