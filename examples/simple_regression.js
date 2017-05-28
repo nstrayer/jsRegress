@@ -57,12 +57,11 @@ const model = new OLS(
   }
 );
 
-const R = model.residuals
-
-
-console.log(R.t().mult(R))
-
-// console.log(Rt)
+console.log(model.sig2_hat)
+// console.log(model.X.dim)
+// console.log(
+//   model.RSS / (model.X.dim.rows - model.X.dim.cols)
+// )
 // console.log(Rt_rows)
 // console.log(Rt_cols)
 

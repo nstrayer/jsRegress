@@ -29,10 +29,11 @@ class OLS{
     const coefs = this.calcCoefficients(X, Y)
     this.coefs_table = this.nameCoefficients(coefs.vals, predictors)
 
+    this.X = X;
     this.predictions = this.predictOutcome(coefs, X);
     this.residuals = this.calcResiduals(Y, this.predictions );
     this.RSS = this.calcRSS(this.residuals);
-    this.Sig2_hat = calcSig2_hat(this.RSS, X);
+    this.sig2_hat = this.calcSig2_hat(this.RSS, X);
   }
 
   getIndexes(predictors){
@@ -68,7 +69,7 @@ class OLS{
   }
 
   calcSig2_hat(rss, X){
-    return rss/ (X.dim.rows - X.dim.cols) //dont need to add one because X has intercept in it.
+    return rss / (X.dim.rows - X.dim.cols); //dont need to add one because X has intercept in it.
   }
 }
 

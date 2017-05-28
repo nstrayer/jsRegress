@@ -77,4 +77,8 @@ describe('Ordinary Least Squares Regression', () => {
     expect(model.RSS).to.equal(18.812580255111463)
   })
 
+  it("Correct sigma hat estimate for whole model", () => {
+    expect(model.sig2_hat).to.equal(2.6875114650159233)
+  })
+
 });
