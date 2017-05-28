@@ -27,6 +27,41 @@ describe('initializing a matrix object', () => {
     );
   });
 
+  it('correctly clones the data', () => {
+    const orig = new matrix(
+      [
+        [4, 2,  5],
+        [2, 3, 20],
+        [1, 2, 15]
+      ]
+    );
+
+    //clone matrix
+    const cloned = orig.clone();
+
+    //change something in the original matrix
+    orig[0,0] = 100;
+
+    //make sure our clone didn't change too.
+    return expect(cloned.vals).to.deep.equal(
+      [
+        [4, 2,  5],
+        [2, 3, 20],
+        [1, 2, 15]
+      ]
+    );
+  });
+
+  it('can return a subset of the matrix', () => {
+    expect(myMatrixA.subset(1).vals).to.deep.equal(
+      [
+        [4,  5],
+        [2, 20],
+        [1, 15]
+      ]
+    )
+  })
+
   it('get columns correctly', () => {
     expect(myMatrixA.col(1)).to.deep.equal( [2,3,2] );
   });

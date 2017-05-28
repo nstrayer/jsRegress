@@ -6,6 +6,7 @@
 import determinant from './determinant';
 import matMult from './matMult';
 import cholesky from './cholesky';
+import {cloneMat, subsetMat} from './helpers/helpers';
 import {inv} from 'mathjs';
 
 class matrix{
@@ -33,6 +34,16 @@ class matrix{
 
   el(row, col){
     return this.vals[row][col];
+  }
+
+  //make an immutable copy of the original data.
+  clone(){
+    return new matrix(cloneMat(this.vals));
+  }
+
+  //remove a column from the data (e.g. taking out response from data)
+  subset(colNum){
+    return new matrix(subsetMat(this.vals, colNum));
   }
 
   diag(){
