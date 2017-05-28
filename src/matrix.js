@@ -22,6 +22,14 @@ class matrix{
     return {rows: n,cols: p}
   }
 
+  numRows(){
+    return this.dim.rows;
+  }
+
+  numCols(){
+    return this.dim.cols;
+  }
+
   //grab a row
   row(rowNum){
     return this.vals.slice(rowNum, rowNum + 1)[0]
