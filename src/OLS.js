@@ -34,6 +34,7 @@ class OLS{
     this.residuals = this.calcResiduals(Y, this.predictions );
     this.RSS = this.calcRSS(this.residuals);
     this.sig2_hat = this.calcSig2_hat(this.RSS, X);
+    this.cov = this.calcCov(X, this.sig2_hat)
   }
 
   getIndexes(predictors){
@@ -70,6 +71,13 @@ class OLS{
 
   calcSig2_hat(rss, X){
     return rss / (X.dim.rows - X.dim.cols); //dont need to add one because X has intercept in it.
+  }
+
+  calcCov(X, sig2_hat){
+    return X.t()
+      .mult(X)
+      .inv()
+      .scaleMult(sig2_hat);
   }
 }
 

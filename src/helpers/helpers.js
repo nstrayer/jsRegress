@@ -5,11 +5,13 @@ import makeDiagMat from './makeDiagMat';
 import subsetMat from './subsetMat';
 import head from './head';
 import appendColumn from './appendColumn';
+import scaleMult from './scaleMult';
 
 module.exports = {
   initializeMat,
   makeDiagMat,
   subsetMat,
   head,
-  appendColumn
+  appendColumn,
+  scaleMult
 };

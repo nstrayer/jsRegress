@@ -147,11 +147,20 @@ describe('initializing a matrix object', () => {
     expect(myMatrixA.det()).to.equal(5);
   });
 
-  it('multiply with another matrix properly', () => {
+  it('multiply with another matrix', () => {
     expect(myMatrixB.mult(myMatrixA).vals).to.deep.equal(
       [
         [25, 24, 135],
         [34, 53, 370]
+      ]
+    );
+  });
+
+  it('multiply by a scaler', () => {
+    expect(myMatrixB.scaleMult(2).vals).to.deep.equal(
+      [
+        [8, 4, 10 ],
+        [4, 6, 40]
       ]
     );
   });

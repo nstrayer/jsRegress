@@ -1,6 +1,5 @@
 const OLS = require('../dist/OLS.js');
 const matrix = require('../dist/matrix.js');
-// const matMult = require('../dist/matMult.js');
 const d3 = require("d3");
 const fs = require('fs');
 
@@ -57,7 +56,10 @@ const model = new OLS(
   }
 );
 
-console.log(model.sig2_hat)
+
+model.cov.head()
+
+
 // console.log(model.X.dim)
 // console.log(
 //   model.RSS / (model.X.dim.rows - model.X.dim.cols)

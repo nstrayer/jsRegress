@@ -6,7 +6,7 @@
 import determinant from './determinant';
 import matMult from './matMult';
 import cholesky from './cholesky';
-import {subsetMat, head, appendColumn} from './helpers/helpers';
+import {subsetMat, head, appendColumn, scaleMult} from './helpers/helpers';
 import {inv} from 'mathjs';
 
 class matrix{
@@ -100,6 +100,10 @@ class matrix{
 
   mult(matB){
     return new matrix(matMult(this.vals, matB.vals));
+  }
+
+  scaleMult(c){
+    return new matrix(scaleMult(c, this.vals))
   }
 
   chol(){
