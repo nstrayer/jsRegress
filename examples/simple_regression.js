@@ -20,32 +20,40 @@ const iris_json = d3.csvParse(
 //convert data to a matrix object and extract column names.
 const {mat: iris , colNames} = jsonToMat(iris_json);
 
-// //Look at what column names we have.
-// console.log("Column names", colNames);
-// // > Column names [ 'Sepal.Length',
-// //   'Sepal.Width',
-// //   'Petal.Length',
-// //   'Petal.Width',
-// //   'Species' ]
-//
-//
-// //add helper for slicing out a column to ease deal of getting y and x values.
-// console.log(iris);
+// Look at what column names we have.
+console.log("Column names", colNames);
+// > Column names [
+//   'Sepal.Length',
+//   'Sepal.Width',
+//   'Petal.Length',
+//   'Petal.Width',
+//   'Species' ]
 
 
-const cloneMat = (mat) => JSON.parse(JSON.stringify(mat));
-
-const subsetMat = (mat, colNum) => {
-  let newMat = cloneMat(mat);
-  newMat.map(row => row.splice(colNum,1)); //remove the  column
-  return newMat;
-}
-
-console.log(A.vals);
-console.log(subsetMat(A.vals, 1));
 
 //Let's predict the petal length from the sepal values.
-// const iris =
-//
-// console.log(A.chol())
-// console.log(math.inv(A.vals));
+//get predictors by taking out the petal width value
+const X = iris
+  .select([2,4], "drop")
+  .addIntercept()
+
+//get outcome by extracting petal width
+const Y = iris
+  .select([2])
+
+
+//check to see we got the data we desired.
+// X.head(5);
+// > [
+//     [ 1, '5.1', '3.5', '0.2' ],
+//     [ 1, '4.9', '3', '0.2' ],
+//     [ 1, '4.7', '3.2', '0.2' ],
+//     [ 1, '4.6', '3.1', '0.2' ],
+//     [ 1, '5', '3.6', '0.2' ]
+//   ]
+
+// Y.head(5);
+// > [ [ '1.4' ], [ '1.4' ], [ '1.3' ], [ '1.5' ], [ '1.4' ] ]
+
+
+X.t().mult(X).inv().mult(X.t()).mult(Y).head()

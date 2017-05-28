@@ -52,12 +52,23 @@ describe('initializing a matrix object', () => {
     );
   });
 
-  it('can return a subset of the matrix', () => {
-    expect(myMatrixA.subset(1).vals).to.deep.equal(
+
+  it('can select a subset of columns by position', () => {
+    expect(myMatrixA.select([0,2]).vals).to.deep.equal(
       [
         [4,  5],
         [2, 20],
         [1, 15]
+      ]
+    )
+  })
+
+  it('can drop a subset of columns by position', () => {
+    expect(myMatrixA.select([0,2], false).vals).to.deep.equal(
+      [
+        [2],
+        [3],
+        [2]
       ]
     )
   })
@@ -108,6 +119,16 @@ describe('initializing a matrix object', () => {
         [4, 2, 1],
         [2, 3, 2],
         [5,20,15]
+      ]
+     );
+  });
+
+  it('can add an intercept term to matrix for regression purposes', () => {
+    expect(myMatrixA.addIntercept().vals).to.deep.equal(
+      [
+        [1, 4, 2,  5],
+        [1, 2, 3, 20],
+        [1, 1, 2, 15]
       ]
      );
   });

@@ -2,12 +2,14 @@
 
 import initializeMat from './initializeMat';
 import makeDiagMat from './makeDiagMat';
-import cloneMat from './cloneMat';
 import subsetMat from './subsetMat';
+import head from './head';
+import appendColumn from './appendColumn';
 
 module.exports = {
   initializeMat,
   makeDiagMat,
-  cloneMat,
-  subsetMat
+  subsetMat,
+  head,
+  appendColumn
 };

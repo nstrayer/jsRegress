@@ -6,7 +6,7 @@
 import determinant from './determinant';
 import matMult from './matMult';
 import cholesky from './cholesky';
-import {cloneMat, subsetMat} from './helpers/helpers';
+import {subsetMat, head, appendColumn} from './helpers/helpers';
 import {inv} from 'mathjs';
 
 class matrix{
@@ -22,12 +22,27 @@ class matrix{
     return {rows: n,cols: p}
   }
 
+  //prints a subset of the data for easy viewing.
+  head(numRows = 10, numCols = 10){
+    head(this.vals, numRows, numCols);
+  }
+
   numRows(){
     return this.dim.rows;
   }
 
   numCols(){
     return this.dim.cols;
+  }
+
+  //remove a column from the data (e.g. taking out response from data)
+  select(wantedRows = [], type = "keep"){
+    return new matrix(subsetMat(this.vals, wantedRows, type));
+  }
+
+  //make an immutable copy of the original data by simply selecting all columns
+  clone(){
+    return this.select([], "drop");
   }
 
   //grab a row
@@ -42,16 +57,6 @@ class matrix{
 
   el(row, col){
     return this.vals[row][col];
-  }
-
-  //make an immutable copy of the original data.
-  clone(){
-    return new matrix(cloneMat(this.vals));
-  }
-
-  //remove a column from the data (e.g. taking out response from data)
-  subset(colNum){
-    return new matrix(subsetMat(this.vals, colNum));
   }
 
   diag(){
@@ -103,6 +108,10 @@ class matrix{
 
   inv(){
     return new matrix(inv(this.vals));
+  }
+
+  addIntercept(){
+    return new matrix(appendColumn(this.vals, 1));
   }
 
 }
