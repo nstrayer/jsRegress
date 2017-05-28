@@ -1,6 +1,7 @@
 // takes a json object and runs a simple ordinary least squares regression on it
 // This returns an object with estimates of coefficienst, their standard errors, confidence intervals, etc.
 import jsonToMat from './jsonToMat';
+import matrix from './matrix';
 
 class OLS{
   constructor(
@@ -20,13 +21,17 @@ class OLS{
 
     const X = mat
       .select(predIndexes)
-      .addIntercept()
+      .addIntercept();
 
     const Y = mat
       .select(outcomeIndex)
 
-    const coefs = this.calcCoefficients(X, Y).vals
-    this.coefs_table = this.nameCoefficients(coefs, predictors)
+    const coefs = this.calcCoefficients(X, Y)
+    this.coefs_table = this.nameCoefficients(coefs.vals, predictors)
+
+    this.predictions = this.predictOutcome(coefs, X);
+    this.residuals = this.calcResiduals(Y, this.predictions );
+    this.RSS = this.calcRSS(this.residuals);
   }
 
   getIndexes(predictors){
@@ -43,6 +48,22 @@ class OLS{
   nameCoefficients(coefs, predictors){
     return ["intercept", ...predictors]
       .map((pred, i) => ({name: pred, coefficient: coefs[i][0]}))
+  }
+
+  predictOutcome(coefs, X){
+    return X.mult(coefs)
+  }
+
+  getDiff(a, b){
+    return a.map((row, i) => [row[0] - b[i][0]])
+  }
+
+  calcResiduals(Y, predictions){
+    return new matrix(this.getDiff(Y.vals, predictions.vals));
+  }
+
+  calcRSS(residuals){
+    return residuals.t().mult(residuals).vals[0][0];
   }
 }
 

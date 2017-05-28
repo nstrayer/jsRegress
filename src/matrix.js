@@ -18,7 +18,7 @@ class matrix{
   //get dimensions of the matrix n: rows, p: columns
   getDimensions(data){
     const n = data.length;
-    const p = data[0].length;
+    const p = data[0].length ? data[0].length: 1;
     return {rows: n,cols: p}
   }
 

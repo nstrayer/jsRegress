@@ -1,6 +1,6 @@
+const OLS = require('../dist/OLS.js');
 const matrix = require('../dist/matrix.js');
-const jsonToMat = require('../dist/jsonToMat.js')
-const math = require('mathjs');
+// const matMult = require('../dist/matMult.js');
 const d3 = require("d3");
 const fs = require('fs');
 
@@ -9,63 +9,32 @@ const iris_json = d3.csvParse(
   fs.readFileSync('./data/iris.csv', 'utf8')
 );
 
-class OLS{
-  constructor(
-    {
-      data,
-      outcome = "y",
-      predictors = []
+const matMult = (A,B) => {
+  const A_rows = A.length;
+  const A_cols = A[0].length;
+  const B_rows = B.length
+  const B_cols = B[0].length
+
+  //make sure we can actually multiply these matricies
+  if(A_cols !== B_rows){
+    throw new Error("To multiply two matrices the number of columns of the first need to match the rows of the second. These don't match.")
+  }
+
+  let result = [];
+
+  for (let i = 0; i < A_rows; i++) {
+    result[i] = [];
+    for (var j = 0; j < B_cols; j++) {
+      let sum = 0;
+      for (let k = 0; k < A_cols; k++) {
+        sum += A[i][k] * B[k][j];
+      }
+      result[i][j] = sum;
     }
-  ){
-    //convert data to a matrix object and extract column names.
-    const {mat, colNames: names} = jsonToMat(data);
-    this.mat = mat;
-    this.names = names;
-
-    const predIndexes = this.getIndexes(predictors);
-    const outcomeIndex = this.getIndexes([outcome]);
-
-    const X = mat
-      .select(predIndexes)
-      .addIntercept()
-
-    const Y = mat
-      .select(outcomeIndex)
-
-    const coefs = this.calcCoefficients(X, Y).vals
-    this.coefs_table = this.nameCoefficients(coefs, predictors)
   }
-
-  getIndexes(predictors){
-    if(predictors.length === 0) {
-      throw(new Error("Need to have some predictors to fit a regression."))
-    }
-    return predictors.map(name => this.names.indexOf(name))
-  }
-
-  calcCoefficients(X, Y){
-    return X.t().mult(X).inv().mult(X.t()).mult(Y);
-  }
-
-  nameCoefficients(coefs, predictors){
-    return ["intercept", ...predictors]
-      .map((pred, i) => ({name: pred, coefficient: coefs[i][0]}))
-  }
+  return result;
 }
 
-// //read in iris data from csv.
-// const iris_json = d3.csvParse( fs.readFileSync('./data/iris.csv', 'utf8') );
-//
-// //fit an ordinary least squares regression to it.
-// const iris_model = new OLS(
-//   {
-//     data: iris_json,
-//     outcome: 'Petal.Length',
-//     predictors: ['Sepal.Length', 'Sepal.Width','Petal.Width']
-//   });
-//
-// //check out the coefficient estimates.
-// console.log( iris_model.coefs_table )
 
 const randomData = [
   {"x1":3.7839,"x2":6.5488,"y":25.9451},
@@ -77,13 +46,28 @@ const randomData = [
   {"x1":-4.6978,"x2":5.3699,"y":-7.4255},
   {"x1":-2.0447,"x2":9.0999,"y":11.8831},
   {"x1":4.5843,"x2":5.8209,"y":23.8477},
-  {"x1":2.2205,"x2":8.3515,"y":23.095}];
+  {"x1":2.2205,"x2":8.3515,"y":23.095}
+];
 
 const model = new OLS(
   {
     data: randomData,
     outcome: 'y',
     predictors: ['x1', 'x2']
-  });
+  }
+);
 
-console.log(model.coefs_table)
+const R = model.residuals
+
+
+console.log(R.t().mult(R))
+
+// console.log(Rt)
+// console.log(Rt_rows)
+// console.log(Rt_cols)
+
+// console.log(R_rows, R_cols)
+
+//
+// R.head()
+// R_t.head()
