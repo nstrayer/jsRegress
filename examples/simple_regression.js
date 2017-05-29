@@ -56,19 +56,27 @@ const model = new OLS(
   }
 );
 
-
-console.log(model.cov.diag())
-
-
-// console.log(model.X.dim)
-// console.log(
-//   model.RSS / (model.X.dim.rows - model.X.dim.cols)
-// )
-// console.log(Rt_rows)
-// console.log(Rt_cols)
-
-// console.log(R_rows, R_cols)
-
-//
-// R.head()
-// R_t.head()
+console.log(model.coefs_table)
+// > [
+//   {
+//     name: 'intercept',
+//     coefficient: -1.5368715690158519,
+//     std_err: 2.3095402908969174,
+//     CI_lower: -6.06357053917381,
+//     CI_upper: 2.989827401142106
+//   },
+//   {
+//     name: 'x1',
+//     coefficient: 3.1641820350665837,
+//     std_err: 0.1534986163214737,
+//     CI_lower: 2.8633247470764953,
+//     CI_upper: 3.465039323056672
+//   },
+//   {
+//     name: 'x2',
+//     coefficient: 2.187297892957143,
+//     std_err: 0.318300799103449,
+//     CI_lower: 1.563428326714383,
+//     CI_upper: 2.811167459199903
+//   }
+// ]

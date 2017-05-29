@@ -27,14 +27,16 @@ class OLS{
       .select(outcomeIndex)
 
     const coefs = this.calcCoefficients(X, Y)
-    this.coefs_table = this.nameCoefficients(coefs.vals, predictors)
 
     this.X = X;
     this.predictions = this.predictOutcome(coefs, X);
     this.residuals = this.calcResiduals(Y, this.predictions );
     this.RSS = this.calcRSS(this.residuals);
     this.sig2_hat = this.calcSig2_hat(this.RSS, X);
-    this.cov = this.calcCov(X, this.sig2_hat)
+    this.cov = this.calcCov(X, this.sig2_hat);
+    this.se = this.coefVars(this.cov);
+    this.coefs_table = this.nameCoefficients(coefs.vals, predictors, this.se)
+
   }
 
   getIndexes(predictors){
@@ -46,11 +48,6 @@ class OLS{
 
   calcCoefficients(X, Y){
     return X.t().mult(X).inv().mult(X.t()).mult(Y);
-  }
-
-  nameCoefficients(coefs, predictors){
-    return ["intercept", ...predictors]
-      .map((pred, i) => ({name: pred, coefficient: coefs[i][0]}))
   }
 
   predictOutcome(coefs, X){
@@ -81,7 +78,19 @@ class OLS{
   }
 
   coefVars(cov){
-    return cov.diag().map(sd => sd^2);
+    return cov.diag().map(v => Math.sqrt(v));
+  }
+
+  nameCoefficients(coefs, predictors, se){
+    return ["intercept", ...predictors]
+      .map((pred, i) => (
+        {
+          name: pred,
+          coefficient: coefs[i][0],
+          std_err: se[i],
+          CI_lower: coefs[i][0] - 1.96*se[i],
+          CI_upper: coefs[i][0] + 1.96*se[i]
+        }))
   }
 }
 

@@ -32,9 +32,27 @@ describe('Ordinary Least Squares Regression', () => {
   it('Correctly gets coefficient estimates', () => {
     expect(model.coefs_table).to.deep.equal(
       [
-        { name: 'intercept', coefficient: -1.5368715690158519 },
-        { name: 'x1', coefficient: 3.1641820350665837 },
-        { name: 'x2', coefficient: 2.187297892957143 }
+        {
+          name: 'intercept',
+          coefficient: -1.5368715690158519,
+          std_err: 2.3095402908969174,
+          CI_lower: -6.06357053917381,
+          CI_upper: 2.989827401142106
+        },
+        {
+          name: 'x1',
+          coefficient: 3.1641820350665837,
+          std_err: 0.1534986163214737,
+          CI_lower: 2.8633247470764953,
+          CI_upper: 3.465039323056672
+        },
+        {
+          name: 'x2',
+          coefficient: 2.187297892957143,
+          std_err: 0.318300799103449,
+          CI_lower: 1.563428326714383,
+          CI_upper: 2.811167459199903
+        }
       ]
     );
   });
@@ -88,6 +106,12 @@ describe('Ordinary Least Squares Regression', () => {
         [ 0.05675970974480971, 0.023561825212607, -0.008593467896667642 ],
         [ -0.7163200353355086, -0.008593467896667642, 0.10131539870989421 ]
       ]
+    );
+  })
+
+  it("Coefficient standard errors", () => {
+    expect(model.se).to.deep.equal(
+      [ 2.3095402908969174, 0.1534986163214737, 0.318300799103449 ]
     );
   })
 
