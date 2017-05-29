@@ -2,7 +2,7 @@
 //the householder projection matrices method.
 import iden from './iden';
 import matrix from './matrix';
-const eucNorm = (vec) => Math.sqrt(vec.reduce((ac, el) => ac + el**2, 0))
+import eucNorm from './eucNorm';
 
 const householder = (vec) => {
   const norm = eucNorm(vec);
@@ -21,7 +21,7 @@ const householder = (vec) => {
     );
 };
 
-//defaults to rounding to the tenth decimal place to avoid machine epsilon errors. 
+//defaults to rounding to the tenth decimal place to avoid machine epsilon errors.
 const qr = (mat, tol = 10) => {
   const {rows: m, cols: n} = mat.dim;
 
