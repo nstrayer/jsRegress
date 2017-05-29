@@ -35,7 +35,7 @@ const qr = (mat) => {
   const loopLength = n == m? n - 1: n;
   for (let i = 0; i < loopLength; i++){
     //calculate the householder matrix for the subcolumn of our A mat.
-    household = householder(mat.partition([i,m], [i,m]).col(0))
+    household = householder(R.partition([i,m], [i,m]).col(0))
     let {rows: h_n, cols: h_m} = household.dim;
 
     //fill in the lower right of an size m identity matrix with the householder matrix.

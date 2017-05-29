@@ -14,20 +14,22 @@ describe('Identity matrix generation', () => {
 
   const{Q, R} = qr(A);
 
-  // it('Correct Q', () => {
-  //   expect(Q.round(3).vals).to.deep.equal(
-  //     [
-  //
-  //     ]
-  //   );
-  // });
+  it('Correct Q', () => {
+    expect(Q.round(3).vals).to.deep.equal(
+      [
+        [ -0.857,  0.394, 0.331 ],
+        [ -0.429, -0.903,-0.034 ],
+        [  0.286, -0.171, 0.943 ]
+      ]
+    );
+  });
 
   it('Correct R', () => {
     expect(R.round(3).vals).to.deep.equal(
       [
-        [ -14, -21, 14 ],
-        [ 0, -174.912, 71.075 ],
-        [ 0,-5.553,-32.761]
+        [ -14,  -21,  14 ],
+        [   0, -175,  70 ],
+        [   0,    0, -35 ]
       ]
     );
   });

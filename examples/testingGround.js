@@ -17,6 +17,7 @@ const iden = (n) => {
   return new matrix(makeDiagMat(Array(n).fill(1)));
 }
 
+const eucNorm = (vec) => Math.sqrt(vec.reduce((ac, el) => ac + el**2, 0))
 
 
 const householder = (vec) => {
@@ -49,7 +50,7 @@ const qr = (mat) => {
   const loopLength = n == m? n - 1: n;
   for (let i = 0; i < loopLength; i++){
     //calculate the householder matrix for the subcolumn of our A mat.
-    household = householder(mat.partition([i,m], [i,m]).col(0))
+    household = householder(R.partition([i,m], [i,m]).col(0))
     let {rows: h_n, cols: h_m} = household.dim;
 
     //fill in the lower right of an size m identity matrix with the householder matrix.
@@ -60,6 +61,7 @@ const qr = (mat) => {
         return i >= n_diff && j >= m_diff ? household.el(i - (n - h_n), j - (m - h_m)): col;
       } ))
     );
+
     //update Q and A matrices;
     Q = Q.mult(H)
     R = H.mult(R)
@@ -70,6 +72,9 @@ const qr = (mat) => {
   }
 };
 
+
+// qr(A).R
+
 console.log(
-  qr(A).R
+  qr(A).Q
 )
