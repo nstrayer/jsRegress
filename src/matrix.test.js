@@ -243,4 +243,44 @@ describe('initializing a matrix object', () => {
       ]
     );
   });
+
+  it('Partitioning by column and row ranges', () => {
+    expect(myMatrixA.partition([1,2],[1,2]).vals).to.deep.equal(
+      [
+        [3, 20],
+        [2, 15]
+      ]
+    );
+  });
+
+  it('Element wise subtraction', () => {
+    expect(myMatrixA.subtract(myMatrixA.clone()).vals).to.deep.equal(
+      [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+      ]
+    );
+  });
+
+  it('Element wise addition', () => {
+    const a = new matrix(
+      [
+        [1,3],
+        [4,5]
+      ]
+    );
+    const b = new matrix(
+      [
+        [3,2],
+        [1,8]
+      ]
+    );
+    return expect(a.add(b).vals).to.deep.equal(
+      [
+        [4, 5],
+        [5,13]
+      ]
+    );
+  });
 });

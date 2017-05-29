@@ -6,6 +6,8 @@ import subsetMat from './subsetMat';
 import head from './head';
 import appendColumn from './appendColumn';
 import scaleMult from './scaleMult';
+import partition from './partition';
+import elWise from './elWise';
 
 module.exports = {
   initializeMat,
@@ -13,5 +15,7 @@ module.exports = {
   subsetMat,
   head,
   appendColumn,
-  scaleMult
+  scaleMult,
+  partition,
+  elWise,
 };

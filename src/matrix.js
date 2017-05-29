@@ -6,7 +6,7 @@
 import determinant from './determinant';
 import matMult from './matMult';
 import cholesky from './cholesky';
-import {subsetMat, head, appendColumn, scaleMult} from './helpers/helpers';
+import {subsetMat, head, appendColumn, scaleMult, partition, elWise} from './helpers/helpers';
 import {inv} from 'mathjs';
 
 class matrix{
@@ -68,16 +68,12 @@ class matrix{
 
   isPosDef(){
     return this.diag(this.vals)
-      .map(el => el > 0? 0: 1)
-      .reduce((el,sum) => el + sum,
-      0) === 0;
+      .reduce((sum,el) => (el > 0? 0: 1) + sum, 0) === 0;
   }
 
   isPosSemiDef(){
     return this.diag(this.vals)
-      .map(el => el >= 0? 0: 1)
-      .reduce((el,sum) => el + sum,
-      0) === 0;
+      .reduce( (sum,el) => (el >= 0? 0: 1) + sum, 0) === 0;
   }
 
   isSymmetric(){
@@ -130,6 +126,19 @@ class matrix{
 
   addIntercept(){
     return new matrix(appendColumn(this.vals, 1));
+  }
+
+  //takes the ranges in vectors. E.g. rowRange = [1,4]
+  partition(rowRange, colRange){
+    return new matrix(partition(this.vals, rowRange, colRange));
+  }
+
+  add(B){
+    return new matrix(elWise(this.vals, B.vals, "add"));
+  }
+
+  subtract(B){
+    return new matrix(elWise(this.vals, B.vals, "subtract"));
   }
 
 }
