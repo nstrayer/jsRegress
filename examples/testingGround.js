@@ -12,6 +12,14 @@ const A = new matrix(
 )
 
 
-console.log(
-  qr(A).R
-)
+const eigen = (A, k = 50) => {
+  let Ak = A.clone();
+
+  for(let i = 0; i < k; i++){
+    let {Q, R} = qr(Ak);
+    Ak = R.mult(Q);
+    console.log(Ak.diag())
+  }
+}
+
+eigen(A)
