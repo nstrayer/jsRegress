@@ -57,7 +57,7 @@ const model = new OLS(
 );
 
 
-model.cov.head()
+console.log(model.cov.diag())
 
 
 // console.log(model.X.dim)

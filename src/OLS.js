@@ -79,6 +79,10 @@ class OLS{
       .inv()
       .scaleMult(sig2_hat);
   }
+
+  coefVars(cov){
+    return cov.diag().map(sd => sd^2);
+  }
 }
 
 module.exports = OLS;
