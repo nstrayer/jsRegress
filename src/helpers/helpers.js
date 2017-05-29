@@ -8,6 +8,7 @@ import appendColumn from './appendColumn';
 import scaleMult from './scaleMult';
 import partition from './partition';
 import elWise from './elWise';
+import round from './round';
 
 module.exports = {
   initializeMat,
@@ -18,4 +19,5 @@ module.exports = {
   scaleMult,
   partition,
   elWise,
+  round,
 };

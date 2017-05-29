@@ -6,7 +6,15 @@
 import determinant from './determinant';
 import matMult from './matMult';
 import cholesky from './cholesky';
-import {subsetMat, head, appendColumn, scaleMult, partition, elWise} from './helpers/helpers';
+import {
+  subsetMat,
+  head,
+  appendColumn,
+  scaleMult,
+  partition,
+  elWise,
+  round,
+} from './helpers/helpers';
 import {inv} from 'mathjs';
 
 class matrix{
@@ -141,6 +149,9 @@ class matrix{
     return new matrix(elWise(this.vals, B.vals, "subtract"));
   }
 
+  round(digits = 0){
+    return new matrix(round(this.vals, digits))
+  }
 }
 
 module.exports = matrix;

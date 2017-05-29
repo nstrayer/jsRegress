@@ -16,7 +16,6 @@ describe('Identity matrix generation', () => {
     [0, 0, 0, 1]
   ];
 
-
   it('size three', () => {
     expect(iden(3).vals).to.deep.equal(size3);
   });

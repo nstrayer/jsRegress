@@ -283,4 +283,34 @@ describe('initializing a matrix object', () => {
       ]
     );
   });
+
+  it('Round to 2 decimals', () => {
+    const a = new matrix(
+      [
+        [1.2521,3.1455],
+        [4.1345,5.3145]
+      ]
+    );
+    expect(a.round(2).vals).to.deep.equal(
+      [
+        [1.25,3.15],
+        [4.13,5.31]
+      ]
+    );
+  });
+
+  it('Will round to zero', () => {
+    const a = new matrix(
+      [
+        [0.0002521,3.1455],
+        [4.1345,5.3145]
+      ]
+    );
+    expect(a.round(2).vals).to.deep.equal(
+      [
+        [0,3.15],
+        [4.13,5.31]
+      ]
+    );
+  });
 });

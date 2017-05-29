@@ -1,23 +1,8 @@
-const OLS = require('../dist/OLS.js');
-const matrix = require('../dist/matrix.js');
-const makeDiagMat = require('../dist/helpers/makeDiagMat.js');
-const math = require('mathjs');
-
-//QR Decomposition.
-
-const A = new matrix(
-  [
-    [ 12, -51,   4],
-    [  6, 167, -68],
-    [ -4,  24, -41]
-  ]
-)
-
-const iden = (n) => {
-  return new matrix(makeDiagMat(Array(n).fill(1)));
-}
-
-
+//Calculates the QR decomposition of a matrix using
+//the householder projection matrices method.
+import iden from './iden';
+import matrix from './matrix';
+const eucNorm = (vec) => Math.sqrt(vec.reduce((ac, el) => ac + el**2, 0))
 
 const householder = (vec) => {
   const norm = eucNorm(vec);
@@ -44,6 +29,7 @@ const qr = (mat) => {
   let Q = iden(n);
   let R = mat.clone();
   let household;
+  let H;
 
   //loop length
   const loopLength = n == m? n - 1: n;
@@ -70,6 +56,4 @@ const qr = (mat) => {
   }
 };
 
-console.log(
-  qr(A).R
-)
+module.exports = qr;
