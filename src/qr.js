@@ -21,8 +21,8 @@ const householder = (vec) => {
     );
 };
 
-
-const qr = (mat) => {
+//defaults to rounding to the tenth decimal place to avoid machine epsilon errors. 
+const qr = (mat, tol = 10) => {
   const {rows: m, cols: n} = mat.dim;
 
   //initialize an identity matrix of size n.
@@ -47,8 +47,8 @@ const qr = (mat) => {
       } ))
     );
     //update Q and A matrices;
-    Q = Q.mult(H)
-    R = H.mult(R)
+    Q = Q.mult(H).round(tol)
+    R = H.mult(R).round(tol)
   }
   return {
     Q,
