@@ -1,8 +1,6 @@
-const OLS = require('../dist/OLS.js');
-const matrix = require('../dist/matrix.js');
-const qr = require('../dist/qr.js');
-const eucNorm = require('../dist/eucNorm.js');
-const iden = require('../dist/iden.js');
+import qr from './qr';
+import eucNorm from './eucNorm';
+import iden from './iden';
 
 const normalize = (vec) => {
   const length = eucNorm(vec);
@@ -16,7 +14,7 @@ const stopCriteria = (oldVals, newVals, thresh) => oldVals
 //For convergence we look at each eigenvalue and track it's percent
 //change from the last itteration. We will stop the itteration
 //when every eigenvalue has stopped shifting by more than the threshold percentage.
-const eigenVecs = (A, k = 50, threshold = 0.0000001) => {
+const eigen = (A, k = 50, threshold = 0.0000001) => {
   let Ak = A.clone();
   let pQ = iden(A.dim.rows);
   let eigenVals = Array(A.dim.rows).fill(1);
@@ -38,14 +36,4 @@ const eigenVecs = (A, k = 50, threshold = 0.0000001) => {
   ))
 }
 
-
-const A = new matrix(
-  [
-    [ 12, -51,   4],
-    [  6, 167, -68],
-    [ -4,  24, -41]
-  ]
-)
-
-
-console.log(eigenVecs(A))
+module.exports = eigen;
