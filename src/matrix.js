@@ -70,7 +70,14 @@ class matrix{
     return this.diag(this.vals)
       .map(el => el > 0? 0: 1)
       .reduce((el,sum) => el + sum,
-      0);
+      0) === 0;
+  }
+
+  isPosSemiDef(){
+    return this.diag(this.vals)
+      .map(el => el >= 0? 0: 1)
+      .reduce((el,sum) => el + sum,
+      0) === 0;
   }
 
   isSymmetric(){

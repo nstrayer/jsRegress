@@ -113,6 +113,43 @@ describe('initializing a matrix object', () => {
     expect(myMatrixA.trace()).to.equal( 22 );
   });
 
+  it('Correctly identifies positive definite matrix', () => {
+    expect(myMatrixA.isPosDef()).to.equal(true);
+  });
+
+  it('Correctly identifies non-positive definite matrix', () => {
+    expect(
+      new matrix(
+        [
+          [-3, 15, -5],
+          [15, 18,  0],
+          [-5,  0, 11]
+        ]
+      ).isPosDef()).to.equal(false);
+  });
+
+  it('Correctly identifies positive semi-definite matrix', () => {
+    expect(
+      new matrix(
+        [
+          [0, 15, -5],
+          [15, 18,  0],
+          [-5,  0, 11]
+        ]
+      ).isPosSemiDef()).to.equal(true);
+  });
+
+  it('Correctly identifies non semi-definite matrix', () => {
+    expect(
+      new matrix(
+        [
+          [-1, 15, -5],
+          [15, 18,  0],
+          [-5,  0, 11]
+        ]
+      ).isPosSemiDef()).to.equal(false);
+  });
+
   it('can get a transpose of symmetric matrix', () => {
     expect(myMatrixA.t().vals).to.deep.equal(
       [
