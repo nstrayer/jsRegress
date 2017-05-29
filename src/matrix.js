@@ -66,6 +66,13 @@ class matrix{
     return this.vals.map((row,i) => row[i])
   }
 
+  isPosDef(){
+    return this.diag(this.vals)
+      .map(el => el > 0? 0: 1)
+      .reduce((el,sum) => el + sum,
+      0);
+  }
+
   isSymmetric(){
     return this.dim.rows === this.dim.cols;
   }

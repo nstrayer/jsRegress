@@ -55,7 +55,6 @@ const model = new OLS(
     predictors: ['x1', 'x2']
   }
 );
-
 console.log(model.coefs_table)
 // > [
 //   {
