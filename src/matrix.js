@@ -152,6 +152,15 @@ class matrix{
   round(digits = 0){
     return new matrix(round(this.vals, digits))
   }
+
+  /**
+   * Works just like the array filter but on the rows of a matrix object.
+   * @param {function} inclusionFunc Function that takes the (value, index, total) and returns a true or false for inclusion.
+   * @returns {matrix} A new, most likely smaller, matrix object.
+   */
+  filterRows(inclusionFunc){
+    return new matrix(this.vals.filter(inclusionFunc));
+  }
 }
 
 module.exports = matrix;

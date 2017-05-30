@@ -313,4 +313,25 @@ describe('initializing a matrix object', () => {
       ]
     );
   });
+
+  it('Filter Rows', () => {
+    const a = new matrix(
+      [
+        [1,2,3],
+        [0,0,0],
+        [2,0,0]
+      ]
+    );
+    //returns the number of zeros in a given row.
+    const numZeros = (vec) => vec.reduce( (sum, val) => val === 0? sum + 1: sum, 0)
+
+    expect(a.filterRows(
+      (row, i) => numZeros(row) !== row.length
+    ).vals).to.deep.equal(
+      [
+        [1,2,3],
+        [2,0,0]
+      ]
+    );
+  });
 });

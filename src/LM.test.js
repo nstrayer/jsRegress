@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import OLS from './OLS';
+import LM from './LM';
 
 describe('Ordinary Least Squares Regression', () => {
 
@@ -15,21 +15,30 @@ describe('Ordinary Least Squares Regression', () => {
     {"x1":4.5843,"x2":5.8209,"y":23.8477},
     {"x1":2.2205,"x2":8.3515,"y":23.095}];
 
-  const model = new OLS(
+  const model = new LM(
     {
       data: randomData,
       outcome: 'y',
-      predictors: ['x1', 'x2']
+      predictors: ['x1', 'x2'],
     });
 
+  const mleModel = new LM(
+    {
+      data: randomData,
+      outcome: 'y',
+      predictors: ['x1', 'x2'],
+      mle: true
+    }
+  )
+
   it('Refuse to fit model with no predictors', () => {
-    expect( () => new OLS({
+    expect( () => new LM({
       data: randomData,
       outcome: 'y'
     })).to.throw("Need to have some predictors to fit a regression.");
   });
 
-  it('Correctly gets coefficient estimates', () => {
+  it('Correctly gets coefficient estimates: OLS', () => {
     expect(model.coefs_table).to.deep.equal(
       [
         {
@@ -52,6 +61,34 @@ describe('Ordinary Least Squares Regression', () => {
           std_err: 0.318300799103449,
           CI_lower: 1.563428326714383,
           CI_upper: 2.811167459199903
+        }
+      ]
+    );
+  });
+
+  it('Correctly gets coefficient estimates: MLE', () => {
+    expect(mleModel.coefs_table).to.deep.equal(
+      [
+        {
+          name: 'intercept',
+          coefficient: -1.5368715690158519,
+          std_err: 1.9323000410633315,
+          CI_lower: -5.324179649499982,
+          CI_upper: 2.250436511468278
+        },
+        {
+          name: 'x1',
+          coefficient: 3.1641820350665837,
+          std_err: 0.12842615640446808,
+          CI_lower: 2.912466768513826,
+          CI_upper: 3.4158973016193412
+        },
+        {
+          name: 'x2',
+          coefficient: 2.187297892957143,
+          std_err: 0.2663095550237091,
+          CI_lower: 1.665331165110673,
+          CI_upper: 2.709264620803613
         }
       ]
     );

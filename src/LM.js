@@ -3,12 +3,21 @@
 import jsonToMat from './jsonToMat';
 import matrix from './matrix';
 
-class OLS{
+/**
+ * Computes eigen values and corresponding vectors for a matrix using QR decomposition.
+ * @param {object} data Data in json form keyed by predictor/outcome name.
+ * @param {string} [outcome="y"] Name of the outcome variable you are predicting.
+ * @param {string} [predictors=[]] Array of the names of the predictors used in model.
+ * @param {boolean} [mle = false] Logical indicating if MLE should be used to model. (Defaults to least-squares.)
+ * @returns {array} Json object containing eigenvalue and vectors.
+ */
+class LM{
   constructor(
     {
       data,
       outcome = "y",
-      predictors = []
+      predictors = [],
+      mle = false,
     }
   ){
     //convert data to a matrix object and extract column names.
@@ -32,7 +41,7 @@ class OLS{
     this.predictions = this.predictOutcome(coefs, X);
     this.residuals = this.calcResiduals(Y, this.predictions );
     this.RSS = this.calcRSS(this.residuals);
-    this.sig2_hat = this.calcSig2_hat(this.RSS, X);
+    this.sig2_hat = this.calcSig2_hat(this.RSS, X, mle);
     this.cov = this.calcCov(X, this.sig2_hat);
     this.se = this.coefVars(this.cov);
     this.coefs_table = this.nameCoefficients(coefs.vals, predictors, this.se)
@@ -66,8 +75,9 @@ class OLS{
     return residuals.t().mult(residuals).vals[0][0];
   }
 
-  calcSig2_hat(rss, X){
-    return rss / (X.dim.rows - X.dim.cols); //dont need to add one because X has intercept in it.
+  calcSig2_hat(rss, X, mle){
+    const divisor = mle? X.dim.rows: X.dim.rows - X.dim.cols;
+    return rss / divisor; //dont need to add one because X has intercept in it.
   }
 
   calcCov(X, sig2_hat){
@@ -94,4 +104,4 @@ class OLS{
   }
 }
 
-module.exports = OLS;
+module.exports = LM;
