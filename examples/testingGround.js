@@ -4,7 +4,8 @@ const cholesky = require('../dist/cholesky.js')
 const LM = require('../dist/LM.js');
 const jsonToMat = require('../dist/jsonToMat');
 const iden = require('../dist/iden.js');
-const makeDiagMat = require('../dist/helpers/makeDiagMat.js')
+const makeDiagMat = require('../dist/helpers/makeDiagMat.js');
+const convergenceCheck = require('../dist/helpers/convergenceCheck.js');
 
 const data = [
   {"x1":3.7839,"x2":6.5488,"y":25.9451},
@@ -26,8 +27,31 @@ const abs = (mat) => mat.map(el => Math.abs(el))
 
 const max = (A,c) => A.map((el, i, j) => Math.max(A.el(i,j), c))
 
-const coefEst = (X, Y, W, B_old) => {
+const coefEst = (X, Y, maxIter, delta, threshold) => {
+  let W = iden(X.dim.rows) //start with identity matrix for weights. I.e unweighted regression.
+  // console.log(Y.col(0))
+  let B = calcB_new(X, Y, W); //calculate initial beta hat estimates.
+  let B_old;
+  let w;
+  let converged;
 
+  for(let i = 0; i < maxIter; i++){
+    B_old = B;
+    w = max( //calculate a new Weight matrix using last beta hat.
+      abs(Y.subtract(X.mult(B))).t(),
+      delta
+    )
+    W = new matrix(makeDiagMat(w.vals[0].map(el => 1/el)))
+    B = calcB_new(X, Y, W)
+
+    converged = convergenceCheck(B.col(0), B_old.col(0));
+
+    if(converged) {
+      console.log("converged in " + i + " iterations");
+      break;
+    }
+  }
+  // console.log(B_new);
 }
 
 class GLM{
@@ -36,8 +60,9 @@ class GLM{
       data,
       outcome = "y",
       predictors = [],
-      maxIter = 1000,
+      maxIter = 200,
       delta = 0.0001,
+      threshold = 0.01,
     }
   ){
     //convert data to a matrix object and extract column names.
@@ -49,15 +74,7 @@ class GLM{
     const Y = mat.select(outcomeIndex)
     const {rows, cols} = mat.dim;
 
-    let W = iden(rows)
-    let B_h = calcB_new(X, Y, W);
-    let w = max(
-      abs(Y.subtract(X.mult(B_h))).t(),
-      delta
-    )
-    W = makeDiagMat(w.vals[0])
-
-    W.head()
+    coefEst(X, Y, maxIter, delta,threshold)
   }
 
   getIndexes(predictors, colNames){
