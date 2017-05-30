@@ -152,4 +152,8 @@ describe('Ordinary Least Squares Regression', () => {
     );
   })
 
+  it("R2", () => {
+    expect(model.R2).to.equal(0.9871710360075683);
+  })
+
 });

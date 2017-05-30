@@ -38,6 +38,8 @@ class LM{
     const coefs = this.calcCoefficients(X, Y)
 
     this.X = X;
+    this.Y = Y;
+    this.coefs = coefs;
     this.predictions = this.predictOutcome(coefs, X);
     this.residuals = this.calcResiduals(Y, this.predictions );
     this.RSS = this.calcRSS(this.residuals);
@@ -45,7 +47,7 @@ class LM{
     this.cov = this.calcCov(X, this.sig2_hat);
     this.se = this.coefVars(this.cov);
     this.coefs_table = this.nameCoefficients(coefs.vals, predictors, this.se)
-
+    this.R2 = this.calcR2(coefs, X, Y)
   }
 
   getIndexes(predictors){
@@ -73,6 +75,14 @@ class LM{
 
   calcRSS(residuals){
     return residuals.t().mult(residuals).vals[0][0];
+  }
+
+  calcR2(coefs, X, Y){
+    const n = Y.dim.rows;
+    const yAvg = Y.vals.reduce((sum, val) => sum + val[0], 0 )/n
+    const top = coefs.t().mult(X.t()).mult(Y).el(0,0) - (n * (yAvg**2))
+    const bottom = Y.t().mult(Y).el(0,0) - (n * (yAvg**2))
+    return top/bottom
   }
 
   calcSig2_hat(rss, X, mle){
