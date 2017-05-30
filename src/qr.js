@@ -26,7 +26,7 @@ const qr = (mat, tol = 10) => {
   const {rows: m, cols: n} = mat.dim;
 
   //initialize an identity matrix of size n.
-  let Q = iden(n);
+  let Q = iden(m);
   let R = mat.clone();
   let household;
   let H;
@@ -36,16 +36,18 @@ const qr = (mat, tol = 10) => {
   for (let i = 0; i < loopLength; i++){
     //calculate the householder matrix for the subcolumn of our A mat.
     household = householder(R.partition([i,m], [i,m]).col(0))
-    let {rows: h_n, cols: h_m} = household.dim;
+
+    let {rows: h_m, cols: h_n} = household.dim;
 
     //fill in the lower right of an size m identity matrix with the householder matrix.
     H = new matrix(
       iden(m).vals.map((row, i) => row.map((col, j) => {
-        const n_diff = n - h_n;
+        const n_diff = m - h_n;
         const m_diff = m - h_m
-        return i >= n_diff && j >= m_diff ? household.el(i - (n - h_n), j - (m - h_m)): col;
+        return i >= n_diff && j >= m_diff ? household.el(j - m_diff,i - n_diff): col;
       } ))
     );
+
     //update Q and A matrices;
     Q = Q.mult(H).round(tol)
     R = H.mult(R).round(tol)
