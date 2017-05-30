@@ -1,10 +1,8 @@
-// takes a json object and runs a simple ordinary least squares regression on it
-// This returns an object with estimates of coefficienst, their standard errors, confidence intervals, etc.
 import jsonToMat from './jsonToMat';
 import matrix from './matrix';
 
 /**
- * Fits a simple linear regression model to supplied data.
+ * Fits a generalized least squares estimate using iteratively re-weighted least squares estimation. 
  * @param {object} data Data in json form keyed by predictor/outcome name.
  * @param {string} [outcome="y"] Name of the outcome variable you are predicting.
  * @param {string} [predictors=[]] Array of the names of the predictors used in model.

@@ -334,4 +334,24 @@ describe('initializing a matrix object', () => {
       ]
     );
   });
+
+  it('Maps properly', () => {
+    const a = new matrix(
+      [
+        [1,2,3],
+        [0,0,0],
+        [2,0,0]
+      ]
+    );
+
+    expect(a.map(
+      (val, i, j) => val**2
+    ).vals).to.deep.equal(
+      [
+        [1,4,9],
+        [0,0,0],
+        [4,0,0]
+      ]
+    );
+  });
 });

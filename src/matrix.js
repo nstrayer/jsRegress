@@ -154,6 +154,18 @@ class matrix{
   }
 
   /**
+   * Works just like the array map but for every element in a matrix.
+   * @param {function} mapFunc Function that takes the (value, rowIndex, colIndex) and does whatever you desire to that element.
+   * @returns {matrix} A matrix with elements supplied by your function.
+   */
+  map(mapFunc){
+    const mat = this.vals;
+    return new matrix(
+      mat.map((r,i) => r.map((c,j) => mapFunc(c,i,j)))
+    );
+  }
+
+  /**
    * Works just like the array filter but on the rows of a matrix object.
    * @param {function} inclusionFunc Function that takes the (value, index, total) and returns a true or false for inclusion.
    * @returns {matrix} A new, most likely smaller, matrix object.
