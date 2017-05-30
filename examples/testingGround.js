@@ -4,6 +4,7 @@ const cholesky = require('../dist/cholesky.js')
 const LM = require('../dist/LM.js');
 const jsonToMat = require('../dist/jsonToMat');
 const iden = require('../dist/iden.js');
+const makeDiagMat = require('../dist/helpers/makeDiagMat.js')
 
 const data = [
   {"x1":3.7839,"x2":6.5488,"y":25.9451},
@@ -21,9 +22,9 @@ const calcB_new = (X, Y, W) => {
   return X.t().mult(W).mult(X).inv().mult(X.t().mult(W).mult(Y));
 }
 
-const abs = (mat) => {
-  return new matrix( mat.vals.map(row => row.map(col => Math.abs(col))) );
-}
+const abs = (mat) => mat.map(el => Math.abs(el))
+
+const max = (A,c) => A.map((el, i, j) => Math.max(A.el(i,j), c))
 
 const coefEst = (X, Y, W, B_old) => {
 
@@ -36,6 +37,7 @@ class GLM{
       outcome = "y",
       predictors = [],
       maxIter = 1000,
+      delta = 0.0001,
     }
   ){
     //convert data to a matrix object and extract column names.
@@ -49,8 +51,13 @@ class GLM{
 
     let W = iden(rows)
     let B_h = calcB_new(X, Y, W);
-    let w_new = abs(Y.subtract(X.mult(B_h))).t()
-    w_new.head()
+    let w = max(
+      abs(Y.subtract(X.mult(B_h))).t(),
+      delta
+    )
+    W = makeDiagMat(w.vals[0])
+
+    W.head()
   }
 
   getIndexes(predictors, colNames){

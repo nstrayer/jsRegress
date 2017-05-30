@@ -1,6 +1,6 @@
 //takes a vector of length n and returns an nxn matrix with vec on diagonals.
 import initializeMat from './initializeMat';
-
+import matrix from '../matrix';
 const makeDiagMat = (vals) => {
   let D = initializeMat(vals.length)
 
