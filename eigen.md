@@ -10,9 +10,7 @@ Computes eigen values and corresponding vectors for a matrix using QR decomposit
 
 **Parameters**
 
--   `A`  
--   `threshold`   (optional, default `0.0000001`)
--   `input` **matrix** An object of the class matrix.
--   `input` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The threshold for percent change in eigen value estimates to stop itteration. (optional, default `0.0000001`)
+-   `A` **matrix** An object of the class matrix.
+-   `threshold` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The threshold for percent change in eigen value estimates to stop iteration. (optional, default `0.0000001`)
 
-Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Json object containing eiven value and vectors.
+Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Json object containing eigenvalue and vectors.

@@ -17,9 +17,9 @@ const stopCriteria = (oldVals, newVals, thresh) => oldVals
 
 /**
  * Computes eigen values and corresponding vectors for a matrix using QR decomposition.
- * @param {matrix} input An object of the class matrix.
- * @param {number} [input=0.0000001] The threshold for percent change in eigen value estimates to stop itteration.
- * @returns {array} Json object containing eiven value and vectors.
+ * @param {matrix} A An object of the class matrix.
+ * @param {number} [threshold=0.0000001] The threshold for percent change in eigen value estimates to stop iteration.
+ * @returns {array} Json object containing eigenvalue and vectors.
  */
 const eigen = (A, threshold = 0.0000001) => {
   let Ak = A.clone();
