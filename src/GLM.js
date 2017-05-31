@@ -54,15 +54,22 @@ import coefTable from './modelFuncs/coefTable';
    return gen_inv_chunk.mult(middle).mult(gen_inv_chunk);
  }
 
- /**
-  * Fits a generalized least squares estimate using iteratively re-weighted least squares estimation.
-  * @param {object} data Data in json form keyed by predictor/outcome name.
-  * @param {string} [outcome="y"] Name of the outcome variable you are predicting.
-  * @param {string} [predictors=[]] Array of the names of the predictors used in model.
-  * @param {boolean} [mle = false] Logical indicating if MLE should be used to model. (Defaults to least-squares.)
-  * @returns {array} Json object containing eigenvalue and vectors.
-  */
+ const getIndexes = (predictors, colNames) => {
+   if(predictors.length === 0) {
+     throw(new Error("Need to have some predictors to fit a regression."))
+   }
+   return predictors.map(name => colNames.indexOf(name))
+ }
+
+ /** Fits a generalized least squares estimate using iteratively re-weighted least squares estimation. */
  class GLM{
+  /**
+   * @param {object} data Data in json form keyed by predictor/outcome name.
+   * @param {string} [outcome="y"] Name of the outcome variable you are predicting.
+   * @param {string} [predictors=[]] Array of the names of the predictors used in model.
+   * @param {boolean} [mle = false] Logical indicating if MLE should be used to model. (Defaults to least-squares.)
+   * @returns {array} Json object containing eigenvalue and vectors.
+  */
    constructor(
      {
        data,
@@ -75,8 +82,8 @@ import coefTable from './modelFuncs/coefTable';
    ){
     //convert data to a matrix object and extract column names.
     const {mat, colNames} = jsonToMat(data);
-    const predIndexes = this.getIndexes(predictors, colNames);
-    const outcomeIndex = this.getIndexes([outcome], colNames);
+    const predIndexes = getIndexes(predictors, colNames);
+    const outcomeIndex = getIndexes([outcome], colNames);
 
     const X = mat.select(predIndexes).addIntercept();
     const Y = mat.select(outcomeIndex)
@@ -89,17 +96,20 @@ import coefTable from './modelFuncs/coefTable';
 
     //export values for user to pull off at their desire.
     // this.R2 = R2;
+    this.coefs = coefs;
     this.coefTable = coefTable(coefs.vals, predictors, stdErrs)
     this.cov = cov;
     this.predictions = predict(coefs, X);
     this.residuals = residuals(Y, this.predictions);
    }
 
-   getIndexes(predictors, colNames){
-     if(predictors.length === 0) {
-       throw(new Error("Need to have some predictors to fit a regression."))
-     }
-     return predictors.map(name => colNames.indexOf(name))
+   /**
+    * Get new predictions from the fitted model
+    * @param {matrix} X_new matrix object representing predictors of new data.
+    * @returns {matrix} Column matrix representing the new predictions.
+   */
+   predict(X_new){
+     return predict(this.coefs, X_new);
    }
 
  }

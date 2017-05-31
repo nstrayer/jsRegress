@@ -3,6 +3,8 @@
 ### Table of Contents
 
 -   [GLM](#glm)
+    -   [constructor](#constructor)
+    -   [predict](#predict)
 -   [map](#map)
 -   [filterRows](#filterrows)
 -   [genInverse](#geninverse)
@@ -21,12 +23,34 @@ Fits a generalized least squares estimate using iteratively re-weighted least sq
     -   `$0.maxIter`   (optional, default `200`)
     -   `$0.delta`   (optional, default `0.0001`)
     -   `$0.threshold`   (optional, default `0.01`)
+
+### constructor
+
+**Parameters**
+
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$0.data`  
+    -   `$0.outcome`   (optional, default `"y"`)
+    -   `$0.predictors`   (optional, default `[]`)
+    -   `$0.maxIter`   (optional, default `200`)
+    -   `$0.delta`   (optional, default `0.0001`)
+    -   `$0.threshold`   (optional, default `0.01`)
 -   `data` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Data in json form keyed by predictor/outcome name.
 -   `outcome` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the outcome variable you are predicting. (optional, default `"y"`)
 -   `predictors` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Array of the names of the predictors used in model. (optional, default `[]`)
 -   `mle` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Logical indicating if MLE should be used to model. (Defaults to least-squares.) (optional, default `false`)
 
 Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Json object containing eigenvalue and vectors.
+
+### predict
+
+Get new predictions from the fitted model
+
+**Parameters**
+
+-   `X_new` **matrix** matrix object representing predictors of new data.
+
+Returns **matrix** Column matrix representing the new predictions.
 
 ## map
 
