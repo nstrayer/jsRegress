@@ -2,6 +2,11 @@
 // This returns an object with estimates of coefficienst, their standard errors, confidence intervals, etc.
 import jsonToMat from './jsonToMat';
 import matrix from './matrix';
+import calcR2 from './modelFuncs/calcR2';
+import predict from './modelFuncs/predict';
+import residuals from './modelFuncs/residuals';
+import coefStdErrs from './modelFuncs/coefStdErrs';
+import coefTable from './modelFuncs/coefTable';
 
 /**
  * Fits a simple linear regression model to supplied data.
@@ -40,14 +45,14 @@ class LM{
     this.X = X;
     this.Y = Y;
     this.coefs = coefs;
-    this.predictions = this.predictOutcome(coefs, X);
-    this.residuals = this.calcResiduals(Y, this.predictions );
+    this.predictions = predict(coefs, X);
+    this.residuals = residuals(Y, this.predictions );
     this.RSS = this.calcRSS(this.residuals);
     this.sig2_hat = this.calcSig2_hat(this.RSS, X, mle);
     this.cov = this.calcCov(X, this.sig2_hat);
-    this.se = this.coefVars(this.cov);
-    this.coefs_table = this.nameCoefficients(coefs.vals, predictors, this.se)
-    this.R2 = this.calcR2(coefs, X, Y)
+    this.se = coefStdErrs(this.cov);
+    this.coefTable = coefTable(coefs.vals, predictors, this.se)
+    this.R2 = calcR2(coefs, X, Y)
   }
 
   getIndexes(predictors){
@@ -61,28 +66,12 @@ class LM{
     return X.t().mult(X).inv().mult(X.t()).mult(Y);
   }
 
-  predictOutcome(coefs, X){
-    return X.mult(coefs)
-  }
-
-  getDiff(a, b){
-    return a.map((row, i) => [row[0] - b[i][0]])
-  }
-
-  calcResiduals(Y, predictions){
-    return new matrix(this.getDiff(Y.vals, predictions.vals));
+  predict(newX){
+    return predict(this.coefs, newX)
   }
 
   calcRSS(residuals){
     return residuals.t().mult(residuals).vals[0][0];
-  }
-
-  calcR2(coefs, X, Y){
-    const n = Y.dim.rows;
-    const yAvg = Y.vals.reduce((sum, val) => sum + val[0], 0 )/n
-    const top = coefs.t().mult(X.t()).mult(Y).el(0,0) - (n * (yAvg**2))
-    const bottom = Y.t().mult(Y).el(0,0) - (n * (yAvg**2))
-    return top/bottom
   }
 
   calcSig2_hat(rss, X, mle){
@@ -97,21 +86,7 @@ class LM{
       .scaleMult(sig2_hat);
   }
 
-  coefVars(cov){
-    return cov.diag().map(v => Math.sqrt(v));
-  }
 
-  nameCoefficients(coefs, predictors, se){
-    return ["intercept", ...predictors]
-      .map((pred, i) => (
-        {
-          name: pred,
-          coefficient: coefs[i][0],
-          std_err: se[i],
-          CI_lower: coefs[i][0] - 1.96*se[i],
-          CI_upper: coefs[i][0] + 1.96*se[i]
-        }))
-  }
 }
 
 module.exports = LM;

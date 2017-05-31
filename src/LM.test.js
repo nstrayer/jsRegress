@@ -39,7 +39,7 @@ describe('Ordinary Least Squares Regression', () => {
   });
 
   it('Correctly gets coefficient estimates: OLS', () => {
-    expect(model.coefs_table).to.deep.equal(
+    expect(model.coefTable).to.deep.equal(
       [
         {
           name: 'intercept',
@@ -67,7 +67,7 @@ describe('Ordinary Least Squares Regression', () => {
   });
 
   it('Correctly gets coefficient estimates: MLE', () => {
-    expect(mleModel.coefs_table).to.deep.equal(
+    expect(mleModel.coefTable).to.deep.equal(
       [
         {
           name: 'intercept',
