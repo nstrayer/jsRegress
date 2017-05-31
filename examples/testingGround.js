@@ -20,7 +20,26 @@ const model = new GLM(
     predictors: ["x1", "x2"]
   }
 )
+model.coefTable
+// >
+// [ { name: 'intercept',
+//     coefficient: 0.3883620420766647,
+//     std_err: 2.265830379302581,
+//     CI_lower: -4.052665501356394,
+//     CI_upper: 4.829389585509723 },
+//   { name: 'x1',
+//     coefficient: 3.192047557026061,
+//     std_err: 0.08560562731905842,
+//     CI_lower: 3.024260527480706,
+//     CI_upper: 3.3598345865714156 },
+//   { name: 'x2',
+//     coefficient: 1.9844016263621924,
+//     std_err: 0.37496038639350177,
+//     CI_lower: 1.249479269030929,
+//     CI_upper: 2.7193239836934557 } ]
 
-console.log(
-  model.coefTable
-)
+model.cov.round(3);
+//>
+// [ [  5.134,  0.079, -0.841 ],
+//   [  0.079,  0.007, -0.013 ],
+//   [ -0.841, -0.013,  0.141 ] ]
