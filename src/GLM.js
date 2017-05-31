@@ -71,7 +71,7 @@ import coefTable from './modelFuncs/coefTable';
    * @returns {array} Json object containing eigenvalue and vectors.
   */
    constructor(
-     {
+     config = {
        data,
        outcome = "y",
        predictors = [],
