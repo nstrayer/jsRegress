@@ -12,11 +12,35 @@ const coefTable = require('../../dist/modelFuncs/coefTable');
 
 const calcCov = (X, W) =>  X.t().mult(W).mult(X).inv()
 
+//family information for the GLM
+const binomialFamily = (() => {
+  const link = (p) => Math.log(p/ (1 - p));
+  const linkInv = (x) => 1/(1 + Math.exp(-x));
+  const linkInvPrime = (x) => linkInv(x)*(1 - linkInv(x));
+  const variance = (x) => x * (1 - x);
+
+  return {
+    link,
+    linkInv,
+    linkInvPrime,
+    variance
+  }
+})()
+
+const findFamily = (type) => {
+  switch(type){
+    case "logistic":
+      return binomialFamily;
+    default:
+      throw(new Error("I'm sorry, that type is not implemented yet."));
+      break;
+  }
+}
 class GLM{
   constructor(config = {}){
     const {
       data,
-      familyFuncs,
+      type,
       outcome = "y",
       predictors = [],
       maxIter = 50,
@@ -24,7 +48,8 @@ class GLM{
     } = config;
 
     //extract the link functions from the family object.
-    const { link, linkInv, linkInvPrime, variance } = familyFuncs;
+
+    const { link, linkInv, linkInvPrime, variance } = findFamily(type);
 
     //extract data matrix and column names from JSON.
     const {mat, colNames} = jsonToMat(data);
@@ -51,20 +76,7 @@ class GLM{
 }
 
 
-//family information for the GLM
-const binomialFamily = (() => {
-  const link = (p) => Math.log(p/ (1 - p));
-  const linkInv = (x) => 1/(1 + Math.exp(-x));
-  const linkInvPrime = (x) => linkInv(x)*(1 - linkInv(x));
-  const variance = (x) => x * (1 - x);
 
-  return {
-    link,
-    linkInv,
-    linkInvPrime,
-    variance
-  }
-})()
 
 const data = d3.csvParse(
  fs.readFileSync('./logisticData.csv', 'utf8')
@@ -74,7 +86,7 @@ const data = d3.csvParse(
 const model = new GLM(
   {
     data: data,
-    familyFuncs: binomialFamily,
+    type: "logistic",
     outcome: "y",
     predictors: ["x1", "x2"]
   }
