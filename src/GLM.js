@@ -65,7 +65,7 @@ import coefTable from './modelFuncs/coefTable';
  class GLM{
   /**
    * @param {Object} config Object containing information for model fit.
-   * @param {object} config.data Data in json form keyed by predictor/outcome name.
+   * @param {Object} config.data Data in json form keyed by predictor/outcome name.
    * @param {string} [config.outcome="y"] Name of the outcome variable you are predicting.
    * @param {string} [config.predictors=[]] Array of the names of the predictors used in model.
    * @param {boolean} [config.mle = false] Logical indicating if MLE should be used to model. (Defaults to least-squares.)

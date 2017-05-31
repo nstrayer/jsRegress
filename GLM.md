@@ -23,7 +23,7 @@ Fits a generalized least squares estimate using iteratively re-weighted least sq
 **Parameters**
 
 -   `config` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object containing information for model fit. (optional, default `{}`)
-    -   `config.data` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Data in json form keyed by predictor/outcome name.
+    -   `config.data` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Data in json form keyed by predictor/outcome name.
     -   `config.outcome` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the outcome variable you are predicting. (optional, default `"y"`)
     -   `config.predictors` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Array of the names of the predictors used in model. (optional, default `[]`)
     -   `config.mle` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Logical indicating if MLE should be used to model. (Defaults to least-squares.) (optional, default `false`)
