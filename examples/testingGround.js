@@ -1,45 +1,22 @@
+const d3 = require("d3");
+const fs = require('fs');
 const matrix = require('../dist/matrix.js');
-const GLM = require('../dist/GLM.js')
-const data = [
-  {"x1":3.7839,"x2":6.5488,"y":25.9451},
-  {"x1":-4.1419,"x2":6.621,"y":0.9537},
-  {"x1":-2.6889,"x2":5.0663,"y":2.9919},
-  {"x1":1.5944,"x2":5.3937,"y":16.181},
-  {"x1":-1.5627,"x2":9.3721,"y":13.9982},
-  {"x1":4.7038,"x2":9.2064,"y":33.6724},
-  {"x1":-4.6978,"x2":5.3699,"y":-7.4255},
-  {"x1":-2.0447,"x2":9.0999,"y":11.8831},
-  {"x1":4.5843,"x2":5.8209,"y":23.8477},
-  {"x1":2.2205,"x2":8.3515,"y":23.095}];
+const LRM = require('../dist/GLM.js')
 
+//read in cars data from csv.
+const data = d3.csvParse(
+  fs.readFileSync('./data/logisticData.csv', 'utf8')
+);
 
-const model = new GLM(
+const model = new LRM(
   {
-    data,
+    data: data,
     outcome: "y",
     predictors: ["x1", "x2"]
   }
 )
-model.coefTable
-// >
-// [ { name: 'intercept',
-//     coefficient: 0.3883620420766647,
-//     std_err: 2.265830379302581,
-//     CI_lower: -4.052665501356394,
-//     CI_upper: 4.829389585509723 },
-//   { name: 'x1',
-//     coefficient: 3.192047557026061,
-//     std_err: 0.08560562731905842,
-//     CI_lower: 3.024260527480706,
-//     CI_upper: 3.3598345865714156 },
-//   { name: 'x2',
-//     coefficient: 1.9844016263621924,
-//     std_err: 0.37496038639350177,
-//     CI_lower: 1.249479269030929,
-//     CI_upper: 2.7193239836934557 } ]
 
-model.cov.round(3);
-//>
-// [ [  5.134,  0.079, -0.841 ],
-//   [  0.079,  0.007, -0.013 ],
-//   [ -0.841, -0.013,  0.141 ] ]
+
+console.log(
+  model.coefs
+)
