@@ -1,81 +1,81 @@
 import { expect } from 'chai';
 import GLM from './GLM';
+import {csvParse} from "d3";
+import fs from 'fs';
 
-describe('Iteratively re-weighted GLM', () => {
+describe('Iteratively re-weighted logistic GLM', () => {
 
-  const data = [
-    {"x1":3.7839,"x2":6.5488,"y":25.9451},
-    {"x1":-4.1419,"x2":6.621,"y":0.9537},
-    {"x1":-2.6889,"x2":5.0663,"y":2.9919},
-    {"x1":1.5944,"x2":5.3937,"y":16.181},
-    {"x1":-1.5627,"x2":9.3721,"y":13.9982},
-    {"x1":4.7038,"x2":9.2064,"y":33.6724},
-    {"x1":-4.6978,"x2":5.3699,"y":-7.4255},
-    {"x1":-2.0447,"x2":9.0999,"y":11.8831},
-    {"x1":4.5843,"x2":5.8209,"y":23.8477},
-    {"x1":2.2205,"x2":8.3515,"y":23.095}];
+  const data = csvParse(
+   fs.readFileSync('./examples/logistic_regression/logisticData.csv', 'utf8')
+  );
+
 
   const model = new GLM(
-   {
-     data,
-     outcome: "y",
-     predictors: ["x1", "x2"]
-   }
- )
+    {
+      data: data,
+      type: "logistic",
+      outcome: "y",
+      predictors: ["x1", "x2"]
+    }
+  )
 
   it('Refuse to fit model with no predictors', () => {
+    const data = csvParse(
+     fs.readFileSync('./examples/logistic_regression/logisticData.csv', 'utf8')
+    );
+
     expect( () => new GLM({
       data: data,
+      type: "logistic",
       outcome: 'y'
     })).to.throw("Need to have some predictors to fit a regression.");
   });
 
-
   it("Covariance estimate", () => {
     expect(model.cov.round(3).vals).to.deep.equal(
       [
-        [ 5.134, 0.079, -0.841 ],
-        [ 0.079, 0.007, -0.013 ],
-        [ -0.841, -0.013, 0.141 ]
+        [ 19.348, -5.401, -3.754 ],
+        [ -5.401, 1.641, 1.068 ],
+        [ -3.754, 1.068, 0.741 ]
       ]
     )
   })
-
-  it("Predictions", ()=> {
-    expect(model.predictions.round(3).vals).to.deep.equal(
-      [
-        [ 25.462 ],
-        [ 0.306 ],
-        [ 1.859 ],
-        [ 16.181 ],
-        [ 13.998 ],
-        [ 33.672 ],
-        [ -3.951 ],
-        [ 11.919 ],
-        [ 26.573 ],
-        [ 24.049 ]
-      ]
-    )
-  })
-
+  //
+  // it("Predictions", ()=> {
+  //   expect(model.predictions.round(3).vals).to.deep.equal(
+  //     [
+  //       [ 25.462 ],
+  //       [ 0.306 ],
+  //       [ 1.859 ],
+  //       [ 16.181 ],
+  //       [ 13.998 ],
+  //       [ 33.672 ],
+  //       [ -3.951 ],
+  //       [ 11.919 ],
+  //       [ 26.573 ],
+  //       [ 24.049 ]
+  //     ]
+  //   )
+  // })
+  //
   it('Coefficient table', ()=> {
     expect(model.coefTable).to.deep.equal(
       [
         { name: 'intercept',
-          coefficient: 0.3883620420766647,
-          std_err: 2.265830379302581,
-          CI_lower: -4.052665501356394,
-          CI_upper: 4.829389585509723 },
+          coefficient: -12.706495553361048,
+          std_err: 4.398619779860115,
+          CI_lower: -21.327790321886873,
+          CI_upper: -4.085200784835223 },
         { name: 'x1',
-          coefficient: 3.192047557026061,
-          std_err: 0.08560562731905842,
-          CI_lower: 3.024260527480706,
-          CI_upper: 3.3598345865714156 },
+          coefficient: 3.7947000608869184,
+          std_err: 1.2811233292740447,
+          CI_lower: 1.2836983355097908,
+          CI_upper: 6.305701786264046 },
         { name: 'x2',
-          coefficient: 1.9844016263621924,
-          std_err: 0.37496038639350177,
-          CI_lower: 1.249479269030929,
-          CI_upper: 2.7193239836934557 }
+          coefficient: 2.5530591661646254,
+          std_err: 0.8608728520420319,
+          CI_lower: 0.8657483761622429,
+          CI_upper: 4.240369956167008 }
       ]
     )
   })
