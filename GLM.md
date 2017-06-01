@@ -4,11 +4,11 @@
 
 -   [GLM](#glm)
     -   [constructor](#constructor)
-    -   [predict](#predict)
+-   [convergenceCheck](#convergencecheck)
+-   [initializeMat](#initializemat)
+-   [genInverse](#geninverse)
 -   [map](#map)
 -   [filterRows](#filterrows)
--   [genInverse](#geninverse)
--   [convergenceCheck](#convergencecheck)
 
 ## GLM
 
@@ -26,19 +26,46 @@ Fits a generalized least squares estimate using iteratively re-weighted least sq
     -   `config.data` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Data in json form keyed by predictor/outcome name.
     -   `config.outcome` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of the outcome variable you are predicting. (optional, default `"y"`)
     -   `config.predictors` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Array of the names of the predictors used in model. (optional, default `[]`)
-    -   `config.mle` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Logical indicating if MLE should be used to model. (Defaults to least-squares.) (optional, default `false`)
+-   `type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of family you want to use. Currently just logistic is available.
+-   `maxIter` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Max number of itterations to try for convergence in iterative least squares algorithm (optional, default `50`)
+-   `threshold` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Limit of size of percent change in each parameter estimate that triggers the stop of iteration. (optional, default `0.01`)
 
 Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Json object containing eigenvalue and vectors.
 
-### predict
+## convergenceCheck
 
-Get new predictions from the fitted model
+Checks the convergence of an array of values by looking at percent change. In order to meet convergence criteria all elements must have converged.
 
 **Parameters**
 
--   `X_new` **matrix** matrix object representing predictors of new data.
+-   `oldVals` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Previous array of values from given estimator.
+-   `newVals` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Latest array of values from given estimator.
+-   `thresh` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Threshold for percent change in a given value to stop iteration. (optional, default `0.000001`)
 
-Returns **matrix** Column matrix representing the new predictions.
+Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** logical containing if the array has converged.
+
+## initializeMat
+
+Constructs a new empty matrix to be filled with a constant.
+
+**Parameters**
+
+-   `rows` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of rows in the new matrix.
+-   `cols` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of columns in the new matrix. (optional, default `rows`)
+-   `filler` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Value to fill all cells of matrix. (optional, default `0`)
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** New two dimensional array of the size requested.
+
+## genInverse
+
+Computes a generalized inverse of a matrix using a QR decomposition and the moore-penrose algorithm.
+This Algorithm is special in that it generates a unique generalized inverse.
+
+**Parameters**
+
+-   `A` **matrix** An object of the class matrix.
+
+Returns **matrix** Generalized inverse of A.
 
 ## map
 
@@ -59,26 +86,3 @@ Works just like the array filter but on the rows of a matrix object.
 -   `inclusionFunc` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that takes the (value, index, total) and returns a true or false for inclusion.
 
 Returns **matrix** A new, most likely smaller, matrix object.
-
-## genInverse
-
-Computes a generalized inverse of a matrix using a QR decomposition and the moore-penrose algorithm.
-This Algorithm is special in that it generates a unique generalized inverse.
-
-**Parameters**
-
--   `A` **matrix** An object of the class matrix.
-
-Returns **matrix** Generalized inverse of A.
-
-## convergenceCheck
-
-Checks the convergence of an array of values by looking at percent change. In order to meet convergence criteria all elements must have converged.
-
-**Parameters**
-
--   `oldVals` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Previous array of values from given estimator.
--   `newVals` **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Latest array of values from given estimator.
--   `thresh` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Threshold for percent change in a given value to stop iteration. (optional, default `0.000001`)
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** logical containing if the array has converged.

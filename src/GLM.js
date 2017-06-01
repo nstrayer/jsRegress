@@ -64,7 +64,6 @@ const calcCov = (X, W) =>  X.t().mult(W).mult(X).inv()
      );
      const cov = calcCov(X, W);
      const stdErrs = coefStdErrs(cov);
-     console.log(cov)
      this.cov = cov;
      this.coefTable = coefTable(coefs.vals, predictors, stdErrs)
    }
